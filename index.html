@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Module Test</title>
+  </head>
+  <body>
+    <h1>MY Public IP ADDRESS : <span id="ip"></span></h1>
+    <button id="btn" onclick="getData()">
+      <span style="color: white">Get Data</span>
+    </button>
+    <div id="data-container">
+      <div class="part-1">
+        <div>
+          <p>lat: <span id="lat"></span></p>
+          <p>lon: <span id="lon"></span></p>
+        </div>
+        <div>
+          <p>city: <span id="cty"></span></p>
+          <p>region: <span id="rgn"></span></p>
+        </div>
+        <div>
+          <p>organisation: <span id="orgstion"></span></p>
+          <p>Hostname: <span id="hstname"></span></p>
+        </div>
+      </div>
+      <div class="map">
+        <iframe
+          src="https://maps.google.com/maps?q=17.4168, 78.4384&z=15&output=embed"
+          width="1300"
+          height="500"
+          frameborder="0"
+          style="border: 0"
+        ></iframe>
+      </div>
+      <p>Time Zone:<span id="tnz"></span></p>
+      <p>Date And Time:<span id="time"></span></p>
+      <p>pin code:<span id="pincode"></span></p>
+      <p>Message:<span id="msg"></span></p>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
