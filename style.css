@@ -1,46 +1,54 @@
 body {
-  margin: 0px 30px;
-  width: 1200px;
-}
-h1 {
-  width: 1300px;
-  height: 41px;
-  left: 41px;
-  top: 59px;
-
-  /* font-family: "Inter"; */
-  font-style: normal;
-  font-weight: 700;
-  font-size: 34px;
-  line-height: 41px;
-
-  color: #000000;
-}
-button {
-  position: absolute;
-  width: 303px;
-  height: 67px;
-  left: 41px;
-  top: 127px;
-
-  background: #000000;
-  border-radius: 10px;
-}
-
-#data-container {
-  display: none;
-}
-.part-1 {
-  width: 800px;
+  background-color: rgba(37, 29, 29, 0.637);
   display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Intern", sans-serif;
 }
-p {
-  width: 400px;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 20px;
+.Timezone-page {
+  background-color: white;
+  color: black;
+  width: 600px;
+  padding: 20px;
 }
-.map {
-  height: 500px;
-  width: 400px;
+.data {
+  padding: 10px;
+  border: 1px solid black;
+}
+.search-address {
+  background-color: black;
+  color: white;
+  width: 600px;
+  padding: 20px;
+}
+.search {
+  display: flex;
+  flex-direction: column;
+}
+#address {
+  background-color: black;
+  height: 20px;
+  color: white;
+  border: 2px solid white;
+}
+#btn {
+  background-color: white;
+  margin-top: 10px;
+  width: 150px;
+  height: 30px;
+  cursor: pointer;
+}
+.search-data {
+  display: none;
+  margin-top: 10px;
+  padding: 10px;
+  /* border: 1px solid white; */
+}
+.result-data {
+  border: 1px solid white;
+}
+.error {
+  display: none;
+  color: red;
 }

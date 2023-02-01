@@ -1,54 +1,92 @@
-let Ip = document.getElementById("ip");
+let timezone = document.getElementById("timezone");
+let latitude = document.getElementById("lat");
+let longitude = document.getElementById("long");
+let offsetstd = document.getElementById("std");
+let offsetstdSeconds = document.getElementById("std-sec");
+let offsetdst = document.getElementById("dst");
+let offsetdstSeconds = document.getElementById("dst-sec");
+let country = document.getElementById("country");
+let postcode = document.getElementById("pst-code");
+let city = document.getElementById("city");
 
-const getIpAdress = async () => {
-  const response = await fetch("https://api.ipify.org/?format=json");
-  const ipdata = await response.json();
-
-  Ip.textContent = ipdata.ip;
-};
-getIpAdress();
-// const getData = async () => {
-//   const response1 = await fetch(" https://ipinfo.io/157.48.80.29/geo");
-//   const data = await response1.json();
-//   console.log(data.city);
-// };
-// url = " https://ipinfo.io/157.48.80.29/geo";
-// console.log(Ipaddress);
-// Ipaddress = ipdata.ip;
-// console.log(Ipaddress);
-// const getData = async () => {
-//   // document.getElementById("btn").style.display = "none";
-//   // document.getElementById("data-container").style.display = "block";
-//   const response1 = await fetch( return response.json(););
-//   const data = await response1.json();
-//   console.log(Ipaddress);
-// };
-function getData() {
-  document.getElementById("btn").style.display = "none";
-  document.getElementById("data-container").style.display = "block";
-  // const Details = async () => {
-  //   const response1 = await fetch(" https://ipinfo.io/157.48.80.29/geo");
-  //   const data = await response1.json();
-  //   console.log(data.city);
-  // };
-  // Details();
-
-  fetch("https://ipinfo.io/157.48.80.29?token=39c73c9a70a157")
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data.loc);
-      console.log(data.loc.substring(0, 7));
-      let latitude = data.loc.substring(0, 7);
-      let longitude = data.loc.substring(8, 15);
-      document.getElementById("lat").textContent = latitude;
-      document.getElementById("lon").textContent = longitude;
-      document.getElementById("cty").textContent = data.city;
-      document.getElementById("rgn").textContent = data.region;
-      document.getElementById("orgstion").textContent = data.org;
-      document.getElementById("tnz").textContent = data.timezone;
-      document.getElementById("time").textContent = "";
-      document.getElementById("pincode").textContent = data.postal;
-      document.getElementById("msg").textContent = "";
-    });
+function getlocation() {
+  navigator.geolocation.getCurrentPosition((position) => {
+    let lat = position.coords.latitude;
+    let long = position.coords.longitude;
+    const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${long}&format=json&apiKey=af0f41b0286e41ab82050bd33b801ab3`;
+    async function getData() {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        showdata(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getData();
+  });
 }
-// getData();
+function showdata(data) {
+  // console.log(data);
+  timezone.innerHTML += `${data.results[0].timezone.name}`;
+  latitude.innerHTML += `${data.results[0].lat}`;
+  longitude.innerHTML += `${data.results[0].lon}`;
+  offsetstd.innerHTML += `${data.results[0].timezone.offset_STD}`;
+  offsetstdSeconds.innerHTML += `${data.results[0].timezone.offset_STD_seconds}`;
+  offsetdst.innerHTML += `${data.results[0].timezone.offset_DST}`;
+  offsetdstSeconds.innerHTML += `${data.results[0].timezone.offset_DST_seconds}`;
+  country.innerHTML += `${data.results[0].country}`;
+  postcode.innerHTML += `${data.results[0].postcode}`;
+  city.innerHTML += `${data.results[0].city}`;
+}
+let address = document.getElementById("address");
+let submitbtn = document.getElementById("btn");
+let resTimezone = document.getElementById("result-timezone");
+let resLatitude = document.getElementById("result-lat");
+let resLongitude = document.getElementById("result-long");
+let resOffsetstd = document.getElementById("result-std");
+let resOffsetstdSeconds = document.getElementById("result-std-sec");
+let resOffsetdst = document.getElementById("result-dst");
+let resOffsetdstSeconds = document.getElementById("result-dst-sec");
+let resCountry = document.getElementById("result-country");
+let resPostcode = document.getElementById("result-pst-code");
+let resCity = document.getElementById("result-city");
+
+function search() {
+  const url = `https://api.geoapify.com/v1/geocode/search?text=${address.value}&apiKey=af0f41b0286e41ab82050bd33b801ab3`;
+
+  async function searchData() {
+    try {
+      const response = await fetch(url);
+      const resdata = await response.json();
+
+      resultant(resdata);
+      // console.log(resdata.features);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  searchData();
+  function resultant(resdata) {
+    if (resdata.features.length > 0) {
+      document.getElementById("valid").style.display = "block";
+      document.getElementById("error").style.display = "none";
+      resTimezone.innerHTML += `${resdata.features[0].properties.timezone.name}`;
+      resLatitude.innerHTML += `${resdata.features[0].properties.lat}`;
+      resLongitude.innerHTML += `${resdata.features[0].properties.lon}`;
+      resOffsetstd.innerHTML += `${resdata.features[0].properties.timezone.offset_STD}`;
+      resOffsetstdSeconds.innerHTML += `${resdata.features[0].properties.timezone.offset_STD_seconds}`;
+      resOffsetdst.innerHTML += `${resdata.features[0].properties.timezone.offset_DST}`;
+      resOffsetdstSeconds.innerHTML += `${resdata.features[0].properties.timezone.offset_DST_seconds}`;
+      resCountry.innerHTML += `${resdata.features[0].properties.country}`;
+      resPostcode.innerHTML += `${resdata.features[0].properties.postcode}`;
+      resCity.innerHTML += `${resdata.features[0].properties.city}`;
+    } else {
+      document.getElementById("error").style.display = "block";
+      document.getElementById("valid").style.display = "none";
+    }
+  }
+}
+
+getlocation();
+submitbtn.addEventListener("click", search);
